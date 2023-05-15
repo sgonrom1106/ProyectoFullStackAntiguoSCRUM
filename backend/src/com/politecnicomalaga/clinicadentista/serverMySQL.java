@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class serverMySQL {
 
-	String url = "jdbc:mysql://localhost:3306/seguroIncidenciasJava";
+	String url = "jdbc:mysql://130.61.62.9:3306/TABLA_MYSQL_CREADA";
 	String username = "nico"; 
 	String password = "CURSO2022";
 
