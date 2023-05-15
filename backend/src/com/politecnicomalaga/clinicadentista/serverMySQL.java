@@ -43,7 +43,7 @@ public class serverMySQL {
     
     
     
-    public String getProveedores() {
+    public String getPacientes() {
         String resultado = "";
         String id, nombre, fecha, direccion, telefono, email, contacto;
         Connection con = null;
@@ -54,11 +54,11 @@ public class serverMySQL {
             con = this.initDatabase();
 
             //st = con.createStatement();
-            ps = con.prepareStatement("select * from proveedores");
+            ps = con.prepareStatement("select * from Pacientes");
 
 
             
-            //ResultSet rs = st.executeQuery("select * from proveedores");
+            //ResultSet rs = st.executeQuery("select * from Pacientes");
             ResultSet rs = ps.executeQuery();
             
              // iteración sobre el resultset
@@ -102,13 +102,13 @@ public class serverMySQL {
     }
     
     
-    //Método de inserción en la tabla de proveedores de un nuevo valor.
-    public String insertProveedor(String sCSV) {
+    //Método de inserción en la tabla de Pacientes de un nuevo valor.
+    public String insertPaciente(String sCSV) {
         String resultado = "<p>Error al insertar</p>";
         String id, nombre, fecha, direccion, telefono, email, contacto;
         Connection con = null;
        
-        Proveedor miPr = new Proveedor(sCSV);
+        Paciente miPr = new Paciente(sCSV);
         
         PreparedStatement ps = null;
       
@@ -116,9 +116,9 @@ public class serverMySQL {
             con = this.initDatabase();
 
             //st = con.createStatement();
-            ps = con.prepareStatement("insert into proveedores (id,nombre,fechaAlta,direccion,telefono,email,contacto) values (?,?,?,?,?,?,?)");
+            ps = con.prepareStatement("insert into Pacientes (id,nombre,fechaAlta,direccion,telefono,email,contacto) values (?,?,?,?,?,?,?)");
             ps.setString(1, String.valueOf((int)(Math.random()*100000)));
-            ps.setString(2,miPr.nombreProveedor);
+            ps.setString(2,miPr.nombrePaciente);
             ps.setString(3,miPr.fechaAlta);
             ps.setString(4,miPr.direccionPostal);
             ps.setString(5,miPr.numeroTelefono);
@@ -128,8 +128,8 @@ public class serverMySQL {
             
             
             if (ps.executeUpdate()!=0)
-                 resultado = "<p>Proveedor insertado correctamente</p>";
-            else resultado = "<p>Algo ha salido mal con la sentencia Insert Proveedores</p>";            
+                 resultado = "<p>Paciente insertado correctamente</p>";
+            else resultado = "<p>Algo ha salido mal con la sentencia Insert Pacientes</p>";            
             //En este caso es una orden hacia la BBDD, y no tenemos
             //ResultSet para iterar, las cosas pueden ir bien, o mal, nada más
             //que hacer entonces aquí
