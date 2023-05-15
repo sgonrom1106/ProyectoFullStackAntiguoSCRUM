@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class serverMySQL {
+public class ServerMySQL {
 
     private String sLastError;
     
-    public serverMySQL() {
+    public ServerMySQL() {
         sLastError = "";
     }
  
