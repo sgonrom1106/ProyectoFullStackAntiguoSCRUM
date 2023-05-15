@@ -8,19 +8,20 @@ import java.sql.Statement;
 
 public class serverMySQL {
 
-	String url = "jdbc:mysql://130.61.62.9:3306/TABLA_MYSQL_CREADA";
+	String url = "jdbc:mysql://130.61.62.9:3306/ClinicaDentistadb";
 	String username = "nico"; 
 	String password = "CURSO2022";
 
 	Connection conexxion;
 	public void connect() throws SQLException {
-	 conexxion = DriverManager.getConnection(url, username, password);
+		conexxion = DriverManager.getConnection(url, username, password);
 	}
 	
 	public void test() throws SQLException {
 		
 	}
 	
+	public String[] get
 
 	public String[] getIncidencia() throws SQLException {
 		String[] datosIncidencia = new String[8];
@@ -42,7 +43,7 @@ public class serverMySQL {
 		}
 		return datosIncidencia;
 	}
-	
+	/*
 	public void uploadOficinaData(Oficina oficina) throws SQLException {
 		String sql;
 		if(oficina.getsCodigo() < 0)
@@ -51,6 +52,8 @@ public class serverMySQL {
 			 sql = String.format("INSERT INTO oficina VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');", oficina.getsCodigo(), oficina.getsNombre(), oficina.getsDireccion(), oficina.getsCiudad(), oficina.getsCP(), oficina.getsTelefono(), oficina.getsEmail());
 		ejecutarCodigo(sql, conexxion);
 	}
+	
+	
 	public void uploadOficinaFull(Oficina oficina) throws SQLException { //TODOS los datos dentro de oficina.
 		String sql = "";
 		uploadOficinaData(oficina);
@@ -76,8 +79,8 @@ public class serverMySQL {
 		
 		ejecutarCodigo(sql, conexxion);
 	}
-		
-	private void ejecutarCodigo(String codigo, Connection conexion) throws SQLException {
+		*/
+	public void ejecutarCodigo(String codigo, Connection conexion) throws SQLException {
 		String sqlError = "Null";
 	    try (Statement statement = conexion.createStatement()) {
 	    	for(String sql: codigo.split(";")) {
@@ -87,8 +90,9 @@ public class serverMySQL {
 	    } catch (SQLException e) {
 	        throw new SQLException("Error executing code: " + sqlError, e);
 	    }
-	}
-
-
-	
+	}	
 }
+
+
+// MYSQL SERVER:
+

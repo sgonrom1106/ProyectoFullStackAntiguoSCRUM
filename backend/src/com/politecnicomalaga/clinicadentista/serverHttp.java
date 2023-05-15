@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class serverHttp extends HttpServlet {
 
-	    public static void main(String[] args) {
+	    public void start() {
 	        System.out.println("Inicializando servidor");
 	    }
 
