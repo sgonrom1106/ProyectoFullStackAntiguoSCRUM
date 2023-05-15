@@ -11,6 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+//String url = "jdbc:mysql://130.61.62.9:3306/ClinicaDentistadb";
+//String username = "nico"; 
+//String password = "CURSO2022";
+
 public class ServerMySQL {
 
     private String sLastError;
@@ -118,10 +122,10 @@ public class ServerMySQL {
             //st = con.createStatement();
             ps = con.prepareStatement("insert into Pacientes (id,nombre,fechaAlta,direccion,telefono,email,contacto) values (?,?,?,?,?,?,?)");
             ps.setString(1, String.valueOf((int)(Math.random()*100000)));
-            ps.setString(2,miPr.nombrePaciente);
-            ps.setString(3,miPr.fechaAlta);
+            ps.setString(2,miPr.sNombre);
+            ps.setString(3,miPr.sApellidos);
             ps.setString(4,miPr.direccionPostal);
-            ps.setString(5,miPr.numeroTelefono);
+            ps.setString(5,miPr.sTelefono);
             ps.setString(6,miPr.email);
             ps.setString(7,miPr.personaDeContacto);
 

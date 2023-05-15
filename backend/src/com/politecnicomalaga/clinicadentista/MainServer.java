@@ -12,14 +12,6 @@ public class MainServer {
 }
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	/* CODIGO ANTIGUO!!!!!!!!!!!!!!
 	private static serverMySQL mysql;
 	
