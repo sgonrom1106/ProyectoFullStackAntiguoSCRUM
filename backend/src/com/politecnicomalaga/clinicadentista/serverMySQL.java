@@ -22,8 +22,10 @@ public class ServerMySQL {
     public ServerMySQL() {
         sLastError = "";
     }
- 
-    private Connection initDatabase()            
+    
+    
+    
+    private Connection initDatabase()
     {
             Connection con = null;
             // Initialize all the information regarding
@@ -118,16 +120,22 @@ public class ServerMySQL {
       
         try {
             con = this.initDatabase();
-
+/*
+	public String sNombre;
+	public String sApellidos;
+	public String sTelefono;
+	public String sEmail;
+	public String sDni;
+	public String sFNac;*/
             //st = con.createStatement();
             ps = con.prepareStatement("insert into Pacientes (id,nombre,fechaAlta,direccion,telefono,email,contacto) values (?,?,?,?,?,?,?)");
             ps.setString(1, String.valueOf((int)(Math.random()*100000)));
             ps.setString(2,miPr.sNombre);
             ps.setString(3,miPr.sApellidos);
-            ps.setString(4,miPr.direccionPostal);
-            ps.setString(5,miPr.sTelefono);
-            ps.setString(6,miPr.email);
-            ps.setString(7,miPr.personaDeContacto);
+            ps.setString(4,miPr.sTelefono);
+            ps.setString(5,miPr.sEmail);
+            ps.setString(6,miPr.sDni);
+            ps.setString(7,miPr.sFNac);
 
             
             
