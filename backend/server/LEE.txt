@@ -2,6 +2,7 @@
 Comandos para meter el script en el servicio de MySQL dentro de Docker
 ------------------------------------------------------------------------
 
+docker-compose up -d
 docker cp C:\Users\Josdittox\Desktop\server\ClinicaDentistadb.sql docker-mysql-1:/ClinicaDentistadb.sql
 docker exec -it docker-mysql-1 mysql -u nico -p
 source /ClinicaDentistadb.sql
