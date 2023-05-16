@@ -164,7 +164,7 @@ public class ServerMySQL {
         try {
             con = this.initDatabase();
             //st = con.createStatement();
-            ps = con.prepareStatement("insert into Paciente (DNI,Nombre,Apellidos,Telefono,Fnac,Email) values (?,?,?,?,?,?,?)");
+            ps = con.prepareStatement("insert into Tratamiento (DNI,Nombre,Apellidos,Telefono,Fnac,Email) values (?,?,?,?,?,?,?)");
             ps.setString(1, miPr.sDni);
             ps.setString(2,miPr.sNombre);
             ps.setString(3,miPr.sApellidos);
@@ -253,8 +253,6 @@ public class ServerMySQL {
     }
     
 }
-
-
 
 
 

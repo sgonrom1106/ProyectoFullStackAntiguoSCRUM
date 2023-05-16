@@ -5,11 +5,11 @@ import java.text.Format;
 public class Tratamiento {
 	public enum AtributosTratamiento {CODIGO,DESCRIPCION,FECHA,PRECIO,COBRADO};
 	
-	protected String sCodigo;
-	protected String sDescripcion;
-	protected String sFecha;
-	protected float fPrecio;
-	protected boolean bCobrado;
+	public String sCodigo;
+	public String sDescripcion;
+	public String sFecha;
+	public float fPrecio;
+	public boolean bCobrado;
 	
 	//Constructor
 	public Tratamiento(String sCodigo, String sDescripcion, String sFecha, float fPrecio) {
