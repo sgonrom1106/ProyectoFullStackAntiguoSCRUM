@@ -13,7 +13,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql            # Volumen para almacenar los datos
     ports:
-      - 3306:3306                         # Mapeo de puerto
+      - 3307:3306                         # Mapeo de puerto
 
   # Servicio de Tomcat
   tomcat:
