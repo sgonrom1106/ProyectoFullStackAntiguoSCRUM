@@ -24,7 +24,6 @@ public class ServerMySQL {
     }
     
     
-    
     private Connection initDatabase()
     {
             Connection con = null;
@@ -33,9 +32,9 @@ public class ServerMySQL {
             String dbDriver = "com.mysql.jdbc.Driver";
             String dbURL = "jdbc:mysql://bbdd:3306/";
             // Database name to access
-            String dbName = "taller_db";
-            String dbUsername = "mecanico";
-            String dbPassword = "2secret2know";
+            String dbName = "NOMBRE_DATABASE";
+            String dbUsername = "nico";
+            String dbPassword = "CURSO2022";
 
             try {
                 Class.forName(dbDriver);
