@@ -46,11 +46,9 @@ public class ServerMySQL {
             return con;
     }
     
-    
-    
-    public String getPacientes() {
+    public String getTratamientos() {/////////////////////////////////////////////////////////////////////////////////////////
         String resultado = "";
-        String id, nombre, fecha, direccion, telefono, email, contacto;
+        String id, desc, fecha, precio, cobrado, dniPac;
         Connection con = null;
         Statement st = null;
         PreparedStatement ps = null;
@@ -59,33 +57,26 @@ public class ServerMySQL {
             con = this.initDatabase();
 
             //st = con.createStatement();
-            ps = con.prepareStatement("select * from Pacientes");
-
-
-            
+            ps = con.prepareStatement("select * from Tratamiento");
             //ResultSet rs = st.executeQuery("select * from Pacientes");
             ResultSet rs = ps.executeQuery();
-            
-             // iteración sobre el resultset
             while (rs.next())  //Mientras tengamos rows de salida...
             {
               iRows++;
-              id = (rs.getString("id"));
-              nombre = rs.getString("nombre");
-              fecha = rs.getString("fechaAlta");         
-              direccion = rs.getString("direccion");
-              telefono = rs.getString("telefono");
-              email = rs.getString("email");
-              contacto = rs.getString("contacto");
+              id = (rs.getString("Codigo"));
+              desc = rs.getString("Descripcion");
+              fecha = rs.getString("Fecha");         
+              precio = rs.getString("Precio");
+              cobrado = rs.getString("Cobrado");
+              dniPac = rs.getString("Dni_Paciente");
               
               // save the results
               resultado += "<p>" + id + ";" +
-                                       nombre + ";" +
-                      fecha + ";" +
-                      direccion + ";" +
-                      telefono + ";" +
-                      email + ";" +
-                      contacto + "</p>\n";
+							desc+ ";" +
+							fecha + ";" +
+							precio + ";" +
+							cobrado + ";" +
+							dniPac + "</p>\n";
             }
         } catch (Exception e) {
             sLastError = sLastError + "<p>Error accediendo a la BBDD Select: " + e.getMessage()+ "</p>";
@@ -107,8 +98,112 @@ public class ServerMySQL {
     }
     
     
-    //Método de inserción en la tabla de Pacientes de un nuevo valor.
-    public String insertPaciente(String sCSV) {
+    
+    public String getPacientes() {/////////////////////////////////////////////////////////////////////////////////////////
+        String resultado = "";
+        String id, nombre, apellidos, telefono, email, dni, fnac;
+        Connection con = null;
+        Statement st = null;
+        PreparedStatement ps = null;
+        int iRows = 0;
+        try {
+            con = this.initDatabase();
+
+            //st = con.createStatement();
+            ps = con.prepareStatement("select * from Pacientes");
+            //ResultSet rs = st.executeQuery("select * from Pacientes");
+            ResultSet rs = ps.executeQuery();
+             // iteración sobre el resultset
+            while (rs.next())  //Mientras tengamos rows de salida...
+            {
+              iRows++;
+              id = (rs.getString("id"));
+              nombre = rs.getString("Nombre");
+              apellidos = rs.getString("Apellidos");         
+              telefono = rs.getString("Telefono");
+              fnac = rs.getString("fnac");
+              email = rs.getString("Email");
+              
+              // save the results
+              resultado += "<p>" + id + ";" +
+                      nombre + ";" +
+                      apellidos+ ";" +
+                      telefono + ";" +
+                      fnac + ";" +
+                      email + "</p>\n";
+            }
+        } catch (Exception e) {
+            sLastError = sLastError + "<p>Error accediendo a la BBDD Select: " + e.getMessage()+ "</p>";
+            e.printStackTrace();
+        } finally {
+            // Liberamos recursos. Cerramos sentencia y conexión
+            try {
+                if (st!= null) st.close();
+                if (con!=null) con.close();
+            } catch (Exception e) {
+                sLastError = sLastError + "<p>Error cerrando la BBDD: " + e.getMessage()+ "</p>";
+                e.printStackTrace();
+                     
+            }
+        }
+        resultado += "\n<p>Rows recogidas: " + iRows + "</p>\n";
+        if (sLastError.isEmpty()) return resultado;        
+        else return resultado + sLastError;
+    }
+    
+
+    public String insertTratamiento(String sCSV) {/////////////////////////////////////////////////////////////////////////////////////////
+        String resultado = "<p>Error al insertar</p>";
+        String id, desc, fecha, precio, cobrado, dniPac;
+        Connection con = null;
+       
+        Paciente miPr = new Paciente(sCSV);
+        
+        PreparedStatement ps = null;
+      
+        try {
+            con = this.initDatabase();
+            //st = con.createStatement();
+            ps = con.prepareStatement("insert into Paciente (DNI,Nombre,Apellidos,Telefono,Fnac,Email) values (?,?,?,?,?,?,?)");
+            ps.setString(1, miPr.sDni);
+            ps.setString(2,miPr.sNombre);
+            ps.setString(3,miPr.sApellidos);
+            ps.setString(4,miPr.sTelefono);
+            ps.setString(5,miPr.sFNac);
+            ps.setString(7,miPr.sEmail);
+
+            
+            
+            if (ps.executeUpdate()!=0)
+        		resultado = "<p>Paciente insertado correctamente</p>";
+            else 
+            	resultado = "<p>Algo ha salido mal con la sentencia Insert Pacientes</p>";            
+            //En este caso es una orden hacia la BBDD, y no tenemos
+            //ResultSet para iterar, las cosas pueden ir bien, o mal, nada más
+            //que hacer entonces aquí
+            
+        } catch (Exception e) {
+            sLastError = sLastError + "<p>Error accediendo a la BBDD Select: " + e.getMessage()+ "</p>";
+            e.printStackTrace();
+        } finally {
+            // Liberamos recursos. Cerramos sentencia y conexión
+            try {
+                if (ps!= null) ps.close();
+                if (con!=null) con.close();
+            } catch (Exception e) {
+                sLastError = sLastError + "<p>Error cerrando la BBDD: " + e.getMessage()+ "</p>";
+                e.printStackTrace();
+                     
+            }
+        }
+        if (sLastError.isEmpty()) return resultado;        
+        else return resultado + sLastError;
+        
+    }
+    
+    
+    
+    public String insertPaciente(String sCSV) {/////////////////////////////////////////////////////////////////////////////////////////
         String resultado = "<p>Error al insertar</p>";
         String id, nombre, fecha, direccion, telefono, email, contacto;
         Connection con = null;
@@ -119,28 +214,21 @@ public class ServerMySQL {
       
         try {
             con = this.initDatabase();
-/*
-	public String sNombre;
-	public String sApellidos;
-	public String sTelefono;
-	public String sEmail;
-	public String sDni;
-	public String sFNac;*/
             //st = con.createStatement();
-            ps = con.prepareStatement("insert into Pacientes (id,nombre,fechaAlta,direccion,telefono,email,contacto) values (?,?,?,?,?,?,?)");
-            ps.setString(1, String.valueOf((int)(Math.random()*100000)));
+            ps = con.prepareStatement("insert into Paciente (DNI,Nombre,Apellidos,Telefono,Fnac,Email) values (?,?,?,?,?,?,?)");
+            ps.setString(1, miPr.sDni);
             ps.setString(2,miPr.sNombre);
             ps.setString(3,miPr.sApellidos);
             ps.setString(4,miPr.sTelefono);
-            ps.setString(5,miPr.sEmail);
-            ps.setString(6,miPr.sDni);
-            ps.setString(7,miPr.sFNac);
+            ps.setString(5,miPr.sFNac);
+            ps.setString(7,miPr.sEmail);
 
             
             
             if (ps.executeUpdate()!=0)
-                 resultado = "<p>Paciente insertado correctamente</p>";
-            else resultado = "<p>Algo ha salido mal con la sentencia Insert Pacientes</p>";            
+        		resultado = "<p>Paciente insertado correctamente</p>";
+            else 
+            	resultado = "<p>Algo ha salido mal con la sentencia Insert Pacientes</p>";            
             //En este caso es una orden hacia la BBDD, y no tenemos
             //ResultSet para iterar, las cosas pueden ir bien, o mal, nada más
             //que hacer entonces aquí

@@ -7,22 +7,21 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 public class MainServer {
+    public static void main(String[] args) {
+        ServerMySQL mysql = new ServerMySQL();
+        String resultado;
 
-	
+        try {
+            // Esto devuelve la lista de pacientes
+            resultado = mysql.getPacientes();
+            System.out.println(resultado);
+
+            // Esto nos da la lista de tratamientos para un paciente específico
+            String dniPaciente = "123456789"; // Pongo uno que ya se que existe
+            resultado = mysql.listaTratamientos(dniPaciente);
+            System.out.println(resultado);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
-	
-	
-	/* CODIGO ANTIGUO!!!!!!!!!!!!!!
-	private static serverMySQL mysql;
-	
-	public static void main(String[] args) {
-		mysql = new serverMySQL();
-		try {
-			mysql.connect();
-			mysql.ejecutarCodigo("CREATE DATABASE TEST_BORRAR;", mysql.conexxion);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-}
-*/
