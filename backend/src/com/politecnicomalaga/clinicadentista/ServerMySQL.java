@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.politecnicomalaga.clinicadentista;
 
 import java.sql.Connection;
@@ -12,9 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-//String url = "jdbc:mysql://130.61.62.9:3306/ClinicaDentistadb";
-//String username = "nico"; 
-//String password = "CURSO2022";
 
 public class ServerMySQL {
 
@@ -147,6 +141,55 @@ public class ServerMySQL {
             return resultado + sLastError;
     }
 
+   
+
+    public String insertTratamiento(String sCSV) {/////////////////////////////////////////////////////////////////////////////////////////
+        String resultado = "<p>Error al insertar</p>";
+        String id, desc, fecha, precio, cobrado, dniPac;
+        Connection con = null;
+       
+        Tratamiento miPr = new Tratamiento(sCSV);
+        
+        PreparedStatement ps = null;
+      
+        try {
+            con = this.initDatabase();
+            //st = con.createStatement();
+            ps = con.prepareStatement("insert into Tratamiento (Codigo,Descripcion,Fecha,Precio,Cobrado,Dni_Paciente) values (?,?,?,?,?,?,?)");
+            ps.setString(1, miPr.sCodigo);
+            ps.setString(2, miPr.sDescripcion);
+            ps.setString(3,miPr.sFecha);
+            ps.setString(4,miPr.fPrecio + "");
+            ps.setString(5,miPr.bCobrado + "");
+            ps.setString(6,"NO_HECHO!");
+     
+            if (ps.executeUpdate()!=0)
+        		resultado = "<p>Tratamiento insertado correctamente</p>";
+            else 
+            	resultado = "<p>Algo ha salido mal con la sentencia Insert Tratamiento</p>";            
+            //En este caso es una orden hacia la BBDD, y no tenemos
+            //ResultSet para iterar, las cosas pueden ir bien, o mal, nada más
+            //que hacer entonces aquí
+            
+        } catch (Exception e) {
+            sLastError = sLastError + "<p>Error accediendo a la BBDD Select: " + e.getMessage()+ "</p>";
+            e.printStackTrace();
+        } finally {
+            // Liberamos recursos. Cerramos sentencia y conexión
+            try {
+                if (ps!= null) ps.close();
+                if (con!=null) con.close();
+            } catch (Exception e) {
+                sLastError = sLastError + "<p>Error cerrando la BBDD: " + e.getMessage()+ "</p>";
+                e.printStackTrace();
+                     
+            }
+        }
+        if (sLastError.isEmpty()) return resultado;        
+        else return resultado + sLastError;
+        
+    }
+
     // Método para obtener la lista de tratamientos de un paciente dado su DNI
     public String listaTratamientos(String dniPaciente) {
         String resultado = "";
@@ -213,35 +256,10 @@ public class ServerMySQL {
         }
     }
 
+    
+
 }
 
-// MYSQL SERVER:
-
-/*
- * DROP DATABASE IF EXISTS ClinicaDentistadb;
- * Create database ClinicaDentistadb;
- * Use ClinicaDentistadb;
- * 
- * Create table Paciente (
- * DNI VARCHAR(9) NOT NULL PRIMARY KEY,
- * Nombre VARCHAR(15),
- * Apellidos VARCHAR(15),
- * Telefono VARCHAR(9),
- * Fnac DATE,
- * Email VARCHAR(40)
- * );
- * 
- * Create table Tratamiento (
- * Codigo int AUTO_INCREMENT PRIMARY KEY,
- * Descripcion VARCHAR(100),
- * Fecha DATE,
- * Precio FLOAT,
- * Cobrado BOOLEAN DEFAULT FALSE,
- * Dni_Paciente VARCHAR(9) NOT NULL,
- * FOREIGN KEY (Dni_Paciente) REFERENCES Paciente (DNI)
- * 
- * );
- */
 
 /////////////////////////////////////////
 
