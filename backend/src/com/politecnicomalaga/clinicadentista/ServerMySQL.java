@@ -157,27 +157,38 @@ public class ServerMySQL {
         String id, desc, fecha, precio, cobrado, dniPac;
         Connection con = null;
        
-        Paciente miPr = new Paciente(sCSV);
+        Tratamiento miPr = new Tratamiento(sCSV);
         
         PreparedStatement ps = null;
       
         try {
             con = this.initDatabase();
             //st = con.createStatement();
-            ps = con.prepareStatement("insert into Tratamiento (DNI,Nombre,Apellidos,Telefono,Fnac,Email) values (?,?,?,?,?,?,?)");
-            ps.setString(1, miPr.sDni);
-            ps.setString(2,miPr.sNombre);
-            ps.setString(3,miPr.sApellidos);
-            ps.setString(4,miPr.sTelefono);
-            ps.setString(5,miPr.sFNac);
-            ps.setString(7,miPr.sEmail);
+            ps = con.prepareStatement("insert into Tratamiento (Codigo,Descripcion,Fecha,Precio,Cobrado,Dni_Paciente) values (?,?,?,?,?,?,?)");
+            ps.setString(1, miPr.sCodigo);
+            ps.setString(2, miPr.sDescripcion);
+            ps.setString(3,miPr.sFecha);
+            ps.setString(4,miPr.fPrecio + "");
+            ps.setString(5,miPr.bCobrado + "");
+            ps.setString(6,"NO_HECHO!");
+/*
 
+ Create table Tratamiento (
+    Codigo int AUTO_INCREMENT PRIMARY KEY,
+    Descripcion VARCHAR(100),
+    Fecha DATE,
+    Precio FLOAT,
+    Cobrado BOOLEAN DEFAULT FALSE,
+	Dni_Paciente VARCHAR(9) NOT NULL,
+	FOREIGN KEY (Dni_Paciente) REFERENCES Paciente (DNI)
+	
+ );
             
-            
+  */          
             if (ps.executeUpdate()!=0)
-        		resultado = "<p>Paciente insertado correctamente</p>";
+        		resultado = "<p>Tratamiento insertado correctamente</p>";
             else 
-            	resultado = "<p>Algo ha salido mal con la sentencia Insert Pacientes</p>";            
+            	resultado = "<p>Algo ha salido mal con la sentencia Insert Tratamiento</p>";            
             //En este caso es una orden hacia la BBDD, y no tenemos
             //ResultSet para iterar, las cosas pueden ir bien, o mal, nada más
             //que hacer entonces aquí
